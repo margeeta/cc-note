@@ -1,17 +1,35 @@
 import React from "react";
-import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
+import { StyleSheet, Text, Dimensions, Image } from "react-native";
 import styled from "styled-components";
 import { MaterialIcons } from "@expo/vector-icons";
 import ImageOverlay from "react-native-image-overlay";
-
-const windowWidth = Dimensions.get("window").width;
-const photoMargin = 1;
-const photoSize = windowWidth / 3 - photoMargin * 2;
+import {
+  Container,
+  Header,
+  View,
+  Button,
+  Icon,
+  Fab,
+  Tab,
+  Tabs,
+} from "native-base";
+import Photos from "./tabOne";
+import Docs from "./tabTwo";
+import Note from "./tabThree";
 
 export default class App extends React.Component {
   render() {
     return (
       <Container>
+        <Fab
+          direction="up"
+          containerStyle={{}}
+          style={{ backgroundColor: "#0277BD" }}
+          position="bottomRight"
+        >
+          <Icon name="add" />
+        </Fab>
+
         <ImageOverlay
           source={require("./assets/header.jpg")}
           height={248}
@@ -58,38 +76,41 @@ export default class App extends React.Component {
             </Chip>
           </AppBar>
         </ImageOverlay>
-        <View style={styles.tabView}>
-          <View style={styles.tabs}>
-            <Text style={[styles.tab, styles.tabActive]}>Photos (1)</Text>
-            <Text style={styles.tab}>Docs (0)</Text>
-            <Text style={styles.tab}>Note</Text>
-          </View>
-        </View>
-        <Text style={styles.feedDate}>Yesterday • Jun 12, 2020</Text>
-        <View style={styles.feed}>
-          <Image style={styles.photo} source={require("./assets/header.jpg")} />
-          <Image
-            style={styles.photo}
-            source={{
-              uri:
-                "https://images.unsplash.com/photo-1506941433945-99a2aa4bd50a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
+        <Tabs
+          tabBarUnderlineStyle={{ borderBottomWidth: 2, borderColor: "black" }}
+        >
+          <Tab
+            heading="Photos (1)"
+            tabStyle={{ backgroundColor: "white" }}
+            textStyle={{ color: "black" }}
+            activeTabStyle={{ backgroundColor: "white" }}
+            activeTextStyle={{
+              color: "black",
+              fontWeight: "bold",
             }}
-          />
-          <Image
-            style={styles.photo}
-            source={{
-              uri:
-                "https://images.unsplash.com/photo-1591989331039-f645c3d7888c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",
-            }}
-          />
-          <Image
-            style={styles.photo}
-            source={{
-              uri:
-                "https://images.unsplash.com/photo-1588346351125-a852422d96b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
-            }}
-          />
-        </View>
+          >
+            <Photos />
+          </Tab>
+          <Tab
+            heading="Docs (0)"
+            tabStyle={{ backgroundColor: "white" }}
+            textStyle={{ color: "grey" }}
+            activeTabStyle={{ backgroundColor: "white" }}
+            activeTextStyle={{ color: "black", fontWeight: "bold" }}
+          >
+            <Docs />
+          </Tab>
+          <Tab
+            heading="Note"
+            tabStyle={{ backgroundColor: "white" }}
+            textStyle={{ color: "grey" }}
+            activeTabStyle={{ backgroundColor: "white" }}
+            activeTextStyle={{ color: "black", fontWeight: "bold" }}
+          >
+            <Note />
+          </Tab>
+        </Tabs>
+
         <Comment>
           <Avatar>IK</Avatar>
           <CommentText>Add project comment…</CommentText>
@@ -98,11 +119,6 @@ export default class App extends React.Component {
     );
   }
 }
-
-const Container = styled.View`
-  flex: 1;
-  background-color: #ffffff;
-`;
 
 const AppBar = styled.View`
   width: 100%;
@@ -144,12 +160,12 @@ const Comment = styled.View`
   flex-direction: row;
   left: 0%;
   right: 0%;
-  bottom: 0px;
+  bottom: -4px;
   padding: 16px;
-  color: rgba(29, 38, 43, 0.4);
   background: #ffffff;
-  box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.14);
+  border: 1px solid #cccccc;
   border-radius: 8px;
+  box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.14);
 `;
 
 const CommentText = styled.Text`
@@ -194,37 +210,5 @@ const styles = StyleSheet.create({
   ChipText: {
     color: "white",
     fontSize: 12,
-  },
-  tabs: {
-    flexDirection: "row",
-    paddingLeft: 16,
-    borderColor: "gray",
-  },
-  tab: {
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    fontSize: 14,
-    color: "gray",
-    fontWeight: "bold",
-  },
-  tabActive: {
-    color: "black",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-  },
-  feedDate: {
-    margin: 16,
-    color: "gray",
-  },
-  feed: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  photo: {
-    width: photoSize,
-    height: photoSize,
-    backgroundColor: "lightgray",
-    margin: photoMargin,
   },
 });
